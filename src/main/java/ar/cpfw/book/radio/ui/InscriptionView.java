@@ -164,7 +164,7 @@ public class InscriptionView {
 					}
 
 					@Override
-					public String id() {
+					public String personId() {
 						return txtId.getText();
 					}
 

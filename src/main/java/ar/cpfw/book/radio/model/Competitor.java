@@ -8,7 +8,7 @@ public interface Competitor {
 
 	String phone();
 
-	String id();
+	String personId();
 
 	String email();
 }

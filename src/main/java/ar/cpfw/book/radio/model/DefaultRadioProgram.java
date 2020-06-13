@@ -2,30 +2,35 @@ package ar.cpfw.book.radio.model;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.function.Function;
 import java.util.stream.Collectors;
 
 public class DefaultRadioProgram implements RadioProgram {
 
-	private CompetitionRepository repository;
+ private UnitOfWork unit;
 
-	public DefaultRadioProgram(CompetitionRepository repository) {
-		this.repository = repository;
-	}
+ public DefaultRadioProgram(UnitOfWork unit) {
+  this.unit = unit;
+ }
 
-	@Override
-	public Iterable<RadioCompetition> availableCompetitions() {
-		List<RadioCompetition> cs = repository.competitionsForInscription();
+ @Override
+ public Iterable<RadioCompetition> availableCompetitions() {
+  Function<Competitions, List<Competition>> codeBlock = (program) -> {
+   return program.competitionsForInscription();
+  };
 
-		return cs.stream().map(d -> new RadioCompetition() {
-			@Override
-			public int id() {
-				return d.id();
-			}
+  var competitions = unit.tx(codeBlock);
 
-			@Override
-			public String description() {
-				return d.description();
-			}
+  return competitions.stream().map(d -> new RadioCompetition() {
+   @Override
+   public int id() {
+    return d.id();
+   }
+
+   @Override
+   public String description() {
+    return d.description();
+   }
 
    @Override
    public String rules() {
@@ -46,21 +51,24 @@ public class DefaultRadioProgram implements RadioProgram {
    public LocalDateTime inscriptionEndDate() {
     return d.inscriptionEndDate();
    }
-		}).collect(Collectors.toList());
-	}
+  }).collect(Collectors.toList());
+ }
 
-	@Override
-	public void addInscription(int idCompetition, Competitor competitor) {
-		repository.competitionBy(idCompetition)
-				.orElseThrow(() -> new RadioException(
-						"Selected competition does not exists..."));
+ @Override
+ public void addInscription(int idCompetition, Competitor competitor) {
 
-		Competitor c = new DefaultCompetitor(competitor.id(),
-				competitor.name(), competitor.lastName(),
-				competitor.email(), competitor.phone());
+  unit.tx((program) -> {
+   var competition = program.competitionBy(idCompetition).orElseThrow(
+     () -> new RadioException("Selected competition does not exists..."));
 
-		repository.addInscription(c.name(), c.lastName(), c.id(),
-				c.phone(), c.email(), idCompetition);
+   Competitor c = new DefaultCompetitor(competitor.personId(),
+     competitor.name(), competitor.lastName(), competitor.email(),
+     competitor.phone());
 
-	}
+   competition.enroll(c);
+
+   //just to make the compiler happy...
+   return null;
+  });
+ }
 }

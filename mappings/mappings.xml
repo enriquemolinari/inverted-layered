@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<entity-mappings xmlns="http://xmlns.jcp.org/xml/ns/persistence/orm"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/persistence/orm
+        http://xmlns.jcp.org/xml/ns/persistence/orm_2_1.xsd" version="2.1">
+
+	<entity name="Competition" class="ar.cpfw.book.radio.model.Competition">
+		<attributes>
+			<id name="id">
+				<generated-value/>
+			</id>	
+			<one-to-many name="inscriptions" target-entity="ar.cpfw.book.radio.model.Inscription">
+				<join-column name="competition_id"/>
+				<cascade><cascade-all/></cascade>
+			</one-to-many>
+		</attributes>
+	</entity>
+
+	<entity name="Inscription" class="ar.cpfw.book.radio.model.Inscription">
+		<attributes>
+			<id name="id">
+				<generated-value/>
+			</id>
+			<many-to-one name="competitor">
+				<cascade><cascade-all/></cascade>
+			</many-to-one>
+        </attributes>
+	</entity>
+								   	
+	<entity name="Competitor" class="ar.cpfw.book.radio.model.DefaultCompetitor">
+		<attributes>
+			<id name="id">
+				<generated-value/>
+			</id>	
+		</attributes>
+	</entity>
+
+	<embeddable class="ar.cpfw.book.radio.model.Phone">
+    	<attributes>
+        	<basic name="number">
+            	<column name="phoneNumber"/>
+	        </basic>
+	    </attributes>
+	</embeddable>
+
+	<embeddable class="ar.cpfw.book.radio.model.Email">
+    	<attributes>
+        	<basic name="email">
+            	<column name="email"/>
+	        </basic>
+	    </attributes>
+	</embeddable>
+
+</entity-mappings>
