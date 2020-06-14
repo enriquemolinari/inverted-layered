@@ -7,10 +7,6 @@ public interface Competitions {
 
 	Optional<Competition> competitionBy(int id);
 	
-//	void addInscription(String name, String lastName, String id,
-//			String phone, String email, int idCompetition)
-//			throws RadioException;
-
 	List<Competition> competitionsForInscription()
 			throws RadioException;
 }

@@ -17,6 +17,14 @@ public class Inscription {
   
  }
  
+ public String inscriptionDate() {
+  return date.toString();
+ }
+
+ boolean isEnrolled(String personId) {
+  return this.competitor.equals(DefaultCompetitor.of(personId));
+ }
+ 
  private DefaultCompetitor getCompetitor() {
   return competitor;
  }

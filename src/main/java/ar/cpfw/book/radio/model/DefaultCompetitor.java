@@ -8,7 +8,8 @@ public class DefaultCompetitor implements Competitor {
  private String lastName;
  private Email email;
  private Phone phone;
-
+ private Integer points;
+ 
  public DefaultCompetitor(String personaId, String name, String lastName,
    String email, String phone) {
   this.personId = new NotNullNorEmpty<String>(personaId, "Id").value();
@@ -17,10 +18,26 @@ public class DefaultCompetitor implements Competitor {
     .value();
   this.email = new Email(email);
   this.phone = new Phone(phone);
+  this.points = 0;
  }
  
  protected DefaultCompetitor() {
   
+ }
+ 
+ private DefaultCompetitor(String personId) {
+  this.personId = personId;
+ }
+ 
+ public void morePoints(int points) {
+  if (points <= 0) {
+   throw new RadioException("points must be positive number...");
+  }
+  this.points += points;
+ }
+ 
+ public int actualPoints() {
+  return points;
  }
  
  public String personId() {
@@ -91,8 +108,45 @@ public class DefaultCompetitor implements Competitor {
   this.phone = phone;
  }
 
+ static DefaultCompetitor of(String personId) {
+  return new DefaultCompetitor(personId);
+ }
+ 
  static DefaultCompetitor of(Competitor competitor) {
   return new DefaultCompetitor(competitor.personId(), competitor.name(),
     competitor.lastName(), competitor.email(), competitor.phone());
+ }
+
+ private Integer getPoints() {
+  return points;
+ }
+
+ private void setPoints(Integer points) {
+  this.points = points;
+ }
+
+ @Override
+ public int hashCode() {
+  final int prime = 31;
+  int result = 1;
+  result = prime * result + ((personId == null) ? 0 : personId.hashCode());
+  return result;
+ }
+
+ @Override
+ public boolean equals(Object obj) {
+  if (this == obj)
+   return true;
+  if (obj == null)
+   return false;
+  if (getClass() != obj.getClass())
+   return false;
+  DefaultCompetitor other = (DefaultCompetitor) obj;
+  if (personId == null) {
+   if (other.personId != null)
+    return false;
+  } else if (!personId.equals(other.personId))
+   return false;
+  return true;
  }
 }

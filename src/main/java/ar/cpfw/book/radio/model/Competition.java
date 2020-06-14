@@ -14,28 +14,47 @@ public class Competition implements RadioCompetition {
  private LocalDateTime inscriptionEndDate;
  private List<Inscription> inscriptions;
 
- //TODO: validar...
+ // TODO: validar...
  public Competition(int id, String description, String rules,
    LocalDateTime startDate, LocalDateTime inscriptionStartDate,
    LocalDateTime inscriptionEndDate) {
-  this.id = id;
-  this.descripcion = description;
+  this.id = new NotNullNorEmpty<Integer>(id, "Must be a valid ").value();
+  this.descripcion = new NotNullNorEmpty<String>(description,
+    "Must be a valid description...").value();
   this.rules = rules;
   this.startDate = startDate;
   this.inscriptionStartDate = inscriptionStartDate;
   this.inscriptionEndDate = inscriptionEndDate;
   this.inscriptions = new ArrayList<>();
  }
- 
+
  protected Competition() {
 
  }
 
- public void enroll(Competitor competitor) {
+ boolean competitor(String personId) {
+  return this.inscriptions.stream()
+    .anyMatch((i) -> i.isEnrolled(personId));
+ }
+
+ public Competitor enroll(Competitor competitor) {
   var inscriptionDate = LocalDateTime.now();
   if (!inTime(inscriptionDate))
    throw new RadioException("Out of inscription date...");
-  this.inscriptions.add(new Inscription(DefaultCompetitor.of(competitor), inscriptionDate));
+
+  var dCompetitor = DefaultCompetitor.of(competitor);
+
+  if (sameDayAsInscriptionStart(inscriptionDate))
+   dCompetitor.morePoints(10);
+
+  this.inscriptions.add(new Inscription(dCompetitor, inscriptionDate));
+
+  return dCompetitor;
+ }
+
+ private boolean sameDayAsInscriptionStart(LocalDateTime inscriptionDate) {
+  return inscriptionStartDate.toLocalDate()
+    .equals(inscriptionDate.toLocalDate());
  }
 
  public int totalCompetitors() {
@@ -71,7 +90,7 @@ public class Competition implements RadioCompetition {
  public LocalDateTime inscriptionEndDate() {
   return this.inscriptionEndDate;
  }
- 
+
  private boolean inTime(LocalDateTime inscriptionDate) {
   return inscriptionStartDate.isBefore(inscriptionDate)
     && inscriptionEndDate.isAfter(inscriptionDate);

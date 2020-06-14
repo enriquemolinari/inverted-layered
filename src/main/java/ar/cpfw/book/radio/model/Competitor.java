@@ -11,4 +11,8 @@ public interface Competitor {
 	String personId();
 
 	String email();
+	
+	default int actualPoints() {
+	 return 0;
+	}
 }

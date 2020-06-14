@@ -32,7 +32,8 @@
 		<attributes>
 			<id name="id">
 				<generated-value/>
-			</id>	
+			</id>
+			<basic name="points"><column nullable="true"/></basic>	
 		</attributes>
 	</entity>
 
