@@ -8,7 +8,6 @@ import javax.persistence.EntityManager;
 
 import ar.cpfw.book.radio.model.Competition;
 import ar.cpfw.book.radio.model.Competitions;
-import ar.cpfw.book.radio.model.RadioException;
 
 public class JpaCompetitions implements Competitions {
  private EntityManager em;
@@ -26,13 +25,12 @@ public class JpaCompetitions implements Competitions {
  }
 
  @Override
- public List<Competition> competitionsForInscription()
-   throws RadioException {
-
-  return em.createQuery(
-    "from Competition c where :today "
-    + "between c.inscriptionStartDate and c.inscriptionEndDate",
-    Competition.class)
+ public List<Competition> competitionsForInscription() {
+  return em
+    .createQuery(
+      "from Competition c where :today "
+        + "between c.inscriptionStartDate and c.inscriptionEndDate",
+      Competition.class)
     .setParameter("today", LocalDateTime.now()).getResultList();
  }
 }

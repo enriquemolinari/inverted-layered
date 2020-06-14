@@ -5,8 +5,7 @@ import java.util.Optional;
 
 public interface Competitions {
 
-	Optional<Competition> competitionBy(int id);
-	
-	List<Competition> competitionsForInscription()
-			throws RadioException;
+ Optional<Competition> competitionBy(int id);
+
+ List<Competition> competitionsForInscription();
 }

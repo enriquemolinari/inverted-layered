@@ -11,7 +11,6 @@ import ar.cpfw.book.radio.model.Competitions;
 import ar.cpfw.book.radio.model.RadioException;
 import ar.cpfw.book.radio.model.UnitOfWork;
 
-
 public class JpaUnitOfWork implements UnitOfWork {
 
  private EntityManagerFactory emf;
@@ -19,16 +18,16 @@ public class JpaUnitOfWork implements UnitOfWork {
  public JpaUnitOfWork(String persistenceUnit) {
   this.emf = Persistence.createEntityManagerFactory(persistenceUnit);
  }
- 
+
  @Override
  public <R> R tx(Function<Competitions, R> codeInTx) {
   EntityManager em = emf.createEntityManager();
   EntityTransaction tx = em.getTransaction();
   try {
    tx.begin();
-   
+
    R result = codeInTx.apply(new JpaCompetitions(em));
-   
+
    tx.commit();
    return result;
   } catch (RadioException e) {
@@ -40,5 +39,5 @@ public class JpaUnitOfWork implements UnitOfWork {
   } finally {
    em.close();
   }
- } 
+ }
 }

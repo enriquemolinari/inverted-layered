@@ -15,8 +15,8 @@ public class DefaultRadioProgram implements RadioProgram {
 
  @Override
  public Iterable<RadioCompetition> availableCompetitions() {
-  Function<Competitions, List<Competition>> codeBlock = (program) -> {
-   return program.competitionsForInscription();
+  Function<Competitions, List<Competition>> codeBlock = (competitions) -> {
+   return competitions.competitionsForInscription();
   };
 
   var competitions = unit.tx(codeBlock);
@@ -56,9 +56,8 @@ public class DefaultRadioProgram implements RadioProgram {
 
  @Override
  public void addInscription(int idCompetition, Competitor competitor) {
-
-  unit.tx((program) -> {
-   var competition = program.competitionBy(idCompetition).orElseThrow(
+  unit.tx((competitions) -> {
+   var competition = competitions.competitionBy(idCompetition).orElseThrow(
      () -> new RadioException("Selected competition does not exists..."));
 
    Competitor c = new DefaultCompetitor(competitor.personId(),
@@ -67,7 +66,7 @@ public class DefaultRadioProgram implements RadioProgram {
 
    competition.enroll(c);
 
-   //just to make the compiler happy...
+   // just to make the compiler happy...
    return null;
   });
  }
