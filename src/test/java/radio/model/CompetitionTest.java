@@ -1,9 +1,13 @@
-package ar.cpfw.book.radio.model;
+package radio.model;
 
 import java.time.LocalDateTime;
 
 import org.junit.Assert;
 import org.junit.Test;
+
+import radio.model.Competition;
+import radio.model.DefaultCompetitor;
+import radio.model.RadioException;
 
 public class CompetitionTest {
 

@@ -1,4 +1,4 @@
-package ar.cpfw.book.radio.persistence;
+package radio.persistence;
 
 import java.util.function.Function;
 
@@ -7,9 +7,9 @@ import javax.persistence.EntityManagerFactory;
 import javax.persistence.EntityTransaction;
 import javax.persistence.Persistence;
 
-import ar.cpfw.book.radio.model.Competitions;
-import ar.cpfw.book.radio.model.RadioException;
-import ar.cpfw.book.radio.model.UnitOfWork;
+import radio.model.Competitions;
+import radio.model.RadioException;
+import radio.model.UnitOfWork;
 
 public class JpaUnitOfWork implements UnitOfWork {
 

@@ -1,4 +1,4 @@
-package ar.cpfw.book.radio.persistence;
+package radio.persistence;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -6,8 +6,8 @@ import java.util.Optional;
 
 import javax.persistence.EntityManager;
 
-import ar.cpfw.book.radio.model.Competition;
-import ar.cpfw.book.radio.model.Competitions;
+import radio.model.Competition;
+import radio.model.Competitions;
 
 public class JpaCompetitions implements Competitions {
  private EntityManager em;
