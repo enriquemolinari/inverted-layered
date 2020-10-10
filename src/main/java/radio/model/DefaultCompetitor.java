@@ -1,5 +1,8 @@
 package radio.model;
 
+import radio.model.api.Competitor;
+import radio.model.api.RadioException;
+
 public class DefaultCompetitor implements Competitor {
 
  private int id;

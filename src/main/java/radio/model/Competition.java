@@ -4,6 +4,10 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
+import radio.model.api.Competitor;
+import radio.model.api.RadioCompetition;
+import radio.model.api.RadioException;
+
 public class Competition implements RadioCompetition {
 
  private int id;

@@ -7,7 +7,7 @@ import java.util.Optional;
 import javax.persistence.EntityManager;
 
 import radio.model.Competition;
-import radio.model.Competitions;
+import radio.model.api.Competitions;
 
 public class JpaCompetitions implements Competitions {
  private EntityManager em;

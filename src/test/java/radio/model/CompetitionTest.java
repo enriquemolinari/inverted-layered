@@ -7,7 +7,7 @@ import org.junit.Test;
 
 import radio.model.Competition;
 import radio.model.DefaultCompetitor;
-import radio.model.RadioException;
+import radio.model.api.RadioException;
 
 public class CompetitionTest {
 

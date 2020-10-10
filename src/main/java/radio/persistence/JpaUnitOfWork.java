@@ -7,9 +7,9 @@ import javax.persistence.EntityManagerFactory;
 import javax.persistence.EntityTransaction;
 import javax.persistence.Persistence;
 
-import radio.model.Competitions;
-import radio.model.RadioException;
-import radio.model.UnitOfWork;
+import radio.model.api.Competitions;
+import radio.model.api.RadioException;
+import radio.model.api.UnitOfWork;
 
 public class JpaUnitOfWork implements UnitOfWork {
 
